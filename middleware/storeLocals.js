@@ -10,4 +10,4 @@ const storeLocals = (req, res, next) => {
     next();
   };
   
-  module.exports = storeLocals;
+module.exports = storeLocals;

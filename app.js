@@ -2,6 +2,7 @@
 const express = require("express");
 require("express-async-errors");
 
+
 require("dotenv").config(); // to load the .env file into the process.env object
 const session = require("express-session");
 
@@ -39,8 +40,14 @@ if (app.get("env") === "production") {
 
 app.use(session(sessionParms));
 
-app.use(require("connect-flash")());
+const passport = require("passport");
+const passportInit = require("./passport/passportInit");
 
+passportInit();
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(require("connect-flash")());
 
 app.use(require("./middleware/storeLocals"));
 app.get("/", (req, res) => {
@@ -49,16 +56,8 @@ app.get("/", (req, res) => {
 app.use("/sessions", require("./routes/sessionRoutes"));
 
 
-const passport = require("passport");
-const passportInit = require("./passport/passportInit");
-
-passportInit();
-app.use(passport.initialize());
-app.use(passport.session());
-
-
 const secretWordRouter = require("./routes/secretWord");
-app.use("/secretWord", secretWordRouter);
+//app.use("/secretWord", secretWordRouter);
 
 const auth = require("./middleware/auth");
 app.use("/secretWord", auth, secretWordRouter);

@@ -9,13 +9,16 @@ const passportInit = () => {
     new LocalStrategy(
       { usernameField: "email", passwordField: "password" },
       async (email, password, done) => {
+        console.log(email)
         try {
           const user = await User.findOne({ email: email });
+          console.log(user)
           if (!user) {
             return done(null, false, { message: "Incorrect credentials." });
           }
 
           const result = await user.comparePassword(password);
+          console.log(result)
           if (result) {
             return done(null, user);
           } else {
