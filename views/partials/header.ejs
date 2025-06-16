@@ -1,5 +1,29 @@
 
 <h1>The Jobs EJS Application</h1>
+<% if (user) { %>
+   <p>User <%= user.name %> is logged on.</p>
+   <form method="POST" action="/sessions/logoff">
+   <button>Logoff</button>
+   </form>
+<% } %>
+<% if (errors) {
+    errors.forEach((err) => { %>
+      <div>
+        Error: <%= err %>
+      </div>
+    <% })
+  } %>
+  <% if (info) {
+    info.forEach((msg) => { %>
+      <div>
+        Info: <%= msg %>
+      </div>
+    <% })
+  } %>
+<hr />
+
+
+<!-- <h1>The Jobs EJS Application</h1>
 <% if (errors) {
 errors.forEach((err) => { %>
 <div>Error: <%= err %></div>
@@ -7,4 +31,4 @@ errors.forEach((err) => { %>
 <% if (info) {
 info.forEach((msg) => { %>
 <div>Info: <%= msg %></div>
-<% }) } %>
+<% }) } %> -->
