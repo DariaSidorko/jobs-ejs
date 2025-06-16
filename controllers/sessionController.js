@@ -10,7 +10,6 @@ const registerDo = async (req, res, next) => {
     req.flash("error", "The passwords entered do not match.");
     return res.render("register", {  errors: req.flash("error") });
   }
-  //console.log(req.body)
   try {
     await User.create(req.body);
   } catch (e) {
