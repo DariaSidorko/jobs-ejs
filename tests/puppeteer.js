@@ -1,5 +1,4 @@
 
-
 const puppeteer = require("puppeteer");
 require("../app");
 const { seed_db, testUserPassword } = require("../util/seed_db");
@@ -9,6 +8,18 @@ let testUser = null;
 
 let page = null;
 let browser = null;
+
+before(async () => {
+    testUser = await seed_db();
+    browser = await puppeteer.launch({ headless: "new" });
+    page = await browser.newPage();
+  });
+
+  after(async () => {
+    await browser.close();
+  });
+
+  
 // Launch the browser and open a new blank page
 describe("jobs-ejs puppeteer test", function () {
   before(async function () {
