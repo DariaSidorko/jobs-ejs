@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cross-env NODE_ENV=test mocha tests/*.js --timeout 5000 --exit"
   },
   "author": "",
   "license": "ISC",
@@ -28,6 +28,18 @@
     "nodemon": "^3.1.10",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
+    "test-data-bot": "^0.8.0",
     "xss-clean": "^0.1.4"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^9.9.0",
+    "chai": "^5.2.1",
+    "chai-http": "^5.1.2",
+    "cross-env": "^7.0.3",
+    "factory-bot": "^6.3.1",
+    "install": "^0.13.0",
+    "mocha": "^11.7.1",
+    "npm": "^11.4.2",
+    "puppeteer": "^24.13.0"
   }
 }

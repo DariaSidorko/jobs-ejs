@@ -42,20 +42,12 @@ const store = new MongoDBStore({
 });
 store.on("error", console.log);
 
-const sessionParms = {
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: true,
-  store: store,
-  cookie: { secure: false, sameSite: "strict" },
-};
-
-if (app.get("env") === "production") {
-  app.set("trust proxy", 1);
-  sessionParms.cookie.secure = true;
-}
-
-app.use(session(sessionParms));
+app.use(session({
+    secret: process.env.SESSION_SECRET || "dev-secret",
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false }, // set to true if using HTTPS
+  }));
 
 // Passport
 passportInit();
@@ -95,12 +87,42 @@ app.use((err, req, res, next) => {
 });
 
 
+// Set Content-Type based on route
+app.use((req, res, next) => {
+    if (req.path === "/multiply") {
+        res.set("Content-Type", "application/json");
+    } else {
+        res.set("Content-Type", "text/html");
+    }
+    next();
+});
+
+// Determine the correct MongoDB URI based on the environment
+let mongoURL = process.env.MONGO_URI;
+if (process.env.NODE_ENV === "test") {
+    mongoURL = process.env.MONGO_URI_TEST;  // Use test database URI
+}
+
+const sessionParms = {
+    secret: mongoURL,
+    resave: false,
+    saveUninitialized: true,
+    store: store,
+    cookie: { secure: false, sameSite: "strict" },
+  };
+
+  if (app.get("env") === "production") {
+    app.set("trust proxy", 1);
+    sessionParms.cookie.secure = true;
+  }
+  
+  app.use(session(sessionParms));
 
 // Start server
 const port = process.env.PORT || 3000;
 const start = async () => {
   try {
-    await require("./db/connect")(process.env.MONGO_URI);
+    await require("./db/connect")(mongoURL);
     app.listen(port, () =>
       console.log(`Server is listening on port ${port}...`)
     );
