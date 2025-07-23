@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cross-env NODE_ENV=test mocha tests/*.js --timeout 5000 --exit"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +15,7 @@
     "connect-flash": "^0.1.1",
     "connect-mongodb-session": "^5.0.0",
     "cookie-parser": "^1.4.7",
+    "csurf": "^1.11.0",
     "dotenv": "^16.5.0",
     "ejs": "^3.1.10",
     "eslint": "^9.28.0",
@@ -23,11 +24,22 @@
     "express-rate-limit": "^7.5.0",
     "express-session": "^1.18.1",
     "helmet": "^8.1.0",
-    "host-csrf": "^1.0.2",
     "mongoose": "^8.15.1",
     "nodemon": "^3.1.10",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
+    "test-data-bot": "^0.8.0",
     "xss-clean": "^0.1.4"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^9.9.0",
+    "chai": "^5.2.1",
+    "chai-http": "^5.1.2",
+    "cross-env": "^7.0.3",
+    "factory-bot": "^6.3.1",
+    "install": "^0.13.0",
+    "mocha": "^11.7.1",
+    "npm": "^11.4.2",
+    "puppeteer": "^24.13.0"
   }
 }
